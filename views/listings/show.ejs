@@ -1,8 +1,8 @@
 <% layout('/layouts/boilerplate') -%>
 <body>
     <div class="row mt-2">
-        <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2 ">
-            <div class="card card-show" >
+        <div class="col-lg-8 col-md-8 offset-lg-2 offset-md-2 ">
+            <div class="card listing-card card-show" >
                 <h1 ><b><%= listing.title %> </b></h1>
                 <img src="<%= listing.image %>" class="card-img-top" alt="img" >
                 <div class="card-body">
@@ -30,7 +30,7 @@
             </div>
         </div>
             
-        <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2">
+        <div class="col-lg-8 col-md-8 offset-lg-2 offset-md-2">
             <hr>
             <h4>Leave a review</h4>
             <form method="post" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
@@ -48,13 +48,18 @@
                 </div>
             </form>
             <hr>
-            <div>
+            <div class="row">
                 <h4>Reviews</h4>
-                <ul>
-                    <% for(review of listing.reviews) { %>
-                        <li><%= review.comment %>,  <%= review.rating %> stars</li>
-                    <% } %>
-                </ul>
+                <% for(review of listing.reviews) { %>
+                   <div class="card col-6  my-2  ">
+                    <h5 class="card-title">Jane Doe</h5>
+                    <p class="card-text"><%= review.comment %> </p>
+                    <p class="card-text"><%= review.rating %> stars</p>
+                    <form method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                        <button class="btn btn-dark mb-2">Delete</button>
+                    </form>
+                   </div>
+                <% } %>
             </div>
             <br><br>
         </div>
