@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ExpressErr = require("./utils/ExpressErr.js");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
+const session = require("express-session");
 require('dotenv').config();
 
 main()
@@ -17,12 +18,21 @@ async function main() {
   await mongoose.connect(process.env.MONGO_URL);
 }
 
+const sessionOptions = {
+  secret : process.env.secret,
+  resave: false,
+  saveUninitialized : true,
+}
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
+app.use(session(sessionOptions));
+
+
 
 
 app.get("/", (req, res) => {
