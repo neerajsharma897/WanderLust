@@ -8,6 +8,7 @@ const ExpressErr = require("./utils/ExpressErr.js");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
 const session = require("express-session");
+const flash = require("connect-flash");
 require('dotenv').config();
 
 main()
@@ -36,8 +37,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(session(sessionOptions));
+app.use(flash());
 
-
+app.use((req,res,next)=>{
+  res.locals.success = req.flash("success");
+  next();
+})
 
 
 app.get("/", (req, res) => {
